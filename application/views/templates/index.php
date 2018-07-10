@@ -6,7 +6,7 @@
         <div class="col-md-3 left_col">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
-              <a href="index.html" class="site_title"><i class="fa fa-paw"></i> <span>Gentelella Alela!</span></a>
+              <a href="<?php echo site_url() ?>" class="site_title"><i class="fa fa-paw"></i> <span>Kontrak Mall</span></a>
             </div>
 
             <div class="clearfix"></div>
@@ -17,8 +17,8 @@
                 <img src="<?php echo base_url() ?>template/production/images/img.jpg" alt="..." class="img-circle profile_img">
               </div>
               <div class="profile_info">
-                <span>Welcome,</span>
-                <h2>John Doe</h2>
+                <span>Selamat Datang,</span>
+                <h2><?php echo $this->session->userdata('nama')?></h2>
               </div>
             </div>
             <!-- /menu profile quick info -->

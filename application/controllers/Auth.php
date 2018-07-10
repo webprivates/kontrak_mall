@@ -11,12 +11,12 @@ class Auth extends CI_Controller {
 
 	public function index()
 	{
-        if($this->session->userdata('is_login') == TRUE ){redirect('welcome');}		
+        if($this->session->userdata('is_login') == TRUE ){redirect('/');}		
 		$this->load->view('admin/login');
     }
     
     public function login(){
-		if($this->session->userdata('is_login') == TRUE ){redirect('welcome');}
+		if($this->session->userdata('is_login') == TRUE ){redirect('/');}
         if (isset($_POST['submit'])) {
 			$username = $this->input->post('username');
 			$password = md5($this->input->post('password'));
@@ -33,7 +33,7 @@ class Auth extends CI_Controller {
 					'nama' =>$check->nama,
 				);
 				$this->session->set_userdata($data);
-				redirect('welcome');
+				redirect('/');
 			}
 		}
     }
