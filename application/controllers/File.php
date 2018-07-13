@@ -92,7 +92,7 @@ class File extends CI_Controller
             $config['upload_path'] = './uploads/';
             $config['allowed_types'] = 'png|pdf|doc|xlsx|xls|docx';
             $config['max_size'] = '0';
-            $config['encrypt_name'] = TRUE; 
+            // $config['encrypt_name'] = TRUE; 
             $this->load->library('upload', $config);
 
             if ( ! $this->upload->do_upload('nm_file')) {
@@ -105,7 +105,7 @@ class File extends CI_Controller
                 // print_r($upload_data);exit;
                     $data = array(
                     'kontrak_id' => $this->input->post('kontrak_id',TRUE),
-                    'nm_file' => $upload_data['file_name'],
+                    'nm_file' => preg_replace('/\s+/', '', $upload_data['file_name']),
                     );
                 $this->File_model->insert($data);
                 $this->session->set_flashdata('message', 'Create Record Success');
@@ -118,7 +118,7 @@ class File extends CI_Controller
         
     }
     
-    public function update($id) 
+    public function update($id, $error = NULL) 
     {
         $row = $this->File_model->get_by_id($id);
 
@@ -129,6 +129,10 @@ class File extends CI_Controller
                 'id_file' => set_value('id_file', $row->id_file),
                 'kontrak_id' => set_value('kontrak_id', $row->kontrak_id),
                 'nm_file' => set_value('nm_file', $row->nm_file),
+                'error' => $error['error'],
+                'kontrak_data' => $this->Kontrak_model->get_all(),
+
+
                 );
             $data['contents'] = 'file/tbl_file_form';
             $this->load->view('templates/index', $data);
@@ -146,14 +150,33 @@ class File extends CI_Controller
         if ($this->form_validation->run() == FALSE) {
             $this->update($this->input->post('id_file', TRUE));
         } else {
-            $data = array(
-            'kontrak_id' => $this->input->post('kontrak_id',TRUE),
-            'nm_file' => $this->input->post('nm_file',TRUE),
-            );
+            
+            $config['upload_path'] = './uploads/';
+            $config['allowed_types'] = 'png|pdf|doc|xlsx|xls|docx';
+            $config['max_size'] = '0';
+            $config['encrypt_name'] = TRUE; 
+            $this->load->library('upload', $config);
+            $data = array();
+            if ( ! $this->upload->do_upload('nm_file')) {
+                $data = array(
+                    'kontrak_id' => $this->input->post('kontrak_id',TRUE),
+                );
+                $this->File_model->update($this->input->post('id_file', TRUE), $data);
+                $this->session->set_flashdata('message', 'Update Record Success');
+                redirect(site_url('file'));
+            } else {
+                // jika berhasil upload ambil data dan masukkan ke database
+                $upload_data = $this->upload->data();
 
-            $this->File_model->update($this->input->post('id_file', TRUE), $data);
-            $this->session->set_flashdata('message', 'Update Record Success');
-            redirect(site_url('file'));
+                $data = array(
+                    'kontrak_id' => $this->input->post('kontrak_id',TRUE),
+                    'nm_file' => $upload_data['file_name'],
+                );
+                $this->File_model->update($this->input->post('id_file', TRUE), $data);
+                $this->session->set_flashdata('message', 'Update Record Success');
+                redirect(site_url('file'));
+              
+            }
         }
     }
     
@@ -162,6 +185,11 @@ class File extends CI_Controller
         $row = $this->File_model->get_by_id($id);
 
         if ($row) {
+            // $path = 'uploads/';
+            // $file = $row->nm_file; 
+            // $target_path = dirname(__DIR__).'/'.$path.$file;
+            // chmod($target_path, 0777);
+            // delete_files($path, TRUE);
             $this->File_model->delete($id);
             $this->session->set_flashdata('message', 'Delete Record Success');
             redirect(site_url('file'));

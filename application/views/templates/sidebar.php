@@ -19,7 +19,7 @@
         <ul class="nav child_menu">
           <li><a href="<?php echo site_url() ?>file">Kelengkapan Berkas</a></li>
           <li><a href="<?php echo site_url() ?>jenis">Jenis Kontrak</a></li>
-          <li><a href="projects.html">Administrator</a></li>
+          <li><a href="<?php echo site_url() ?>users">Administrator</a></li>
         </ul>
       </li>
       <li><a><i class="fa fa-sitemap"></i> Tentang </a></li>
