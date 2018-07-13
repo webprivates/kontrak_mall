@@ -116,6 +116,7 @@ return array(
 	// 'xl'	=>	'application/excel',
 	// 'docx'  =>  array('application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/zip'),
 	'docx'  => array('application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/x-zip','application/zip', 'application/msword', 'application/x-zip'),
+	// 'docx' => array('application/vnd.openxmlformats-officedocument.wordprocessingml.document'),
 	'xls'  =>  array('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/zip'),
 	'word'  =>  array('application/msword', 'application/octet-stream'),
 	'eml'	=>	'message/rfc822',
