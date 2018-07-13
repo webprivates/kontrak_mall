@@ -20,19 +20,22 @@
         <table class="word-table" style="margin-bottom: 10px">
             <tr>
                 <th>No</th>
-		<th>Jenis Id</th>
-		<th>Nm Toko</th>
-		<th>Tgl Masuk</th>
-		<th>Cp</th>
-		<th>Jml Dana</th>
+                <th>Nama Kontrak</th>
+                <th>Jenis Kontrak</th>
+                <th>Nm Toko</th>
+                <th>Tgl Masuk</th>
+                <th>Contact</th>
+                <th>Jml Dana</th>
 		
-            </tr><?php
+            </tr>
+            <?php
             foreach ($kontrak_data as $kontrak)
             {
                 ?>
                 <tr>
 		      <td><?php echo ++$start ?></td>
-		      <td><?php echo $kontrak->jenis_id ?></td>
+		      <td><?php echo $kontrak->nm_kontrak ?></td>
+		      <td><?php echo $kontrak->nm_jenis ?></td>
 		      <td><?php echo $kontrak->nm_toko ?></td>
 		      <td><?php echo $kontrak->tgl_masuk ?></td>
 		      <td><?php echo $kontrak->cp ?></td>

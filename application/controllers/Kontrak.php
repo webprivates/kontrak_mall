@@ -8,7 +8,9 @@ class Kontrak extends CI_Controller
     function __construct()
     {
         parent::__construct();
+        if($this->session->userdata('is_login') == FALSE ){redirect('auth');}		
         $this->load->model('Kontrak_model');
+        $this->load->model('Jenis_model');
         $this->load->library('form_validation');
     }
 
@@ -50,13 +52,15 @@ class Kontrak extends CI_Controller
         $row = $this->Kontrak_model->get_by_id($id);
         if ($row) {
             $data = array(
-		'id_kontrak' => $row->id_kontrak,
-		'jenis_id' => $row->jenis_id,
-		'nm_toko' => $row->nm_toko,
-		'tgl_masuk' => $row->tgl_masuk,
-		'cp' => $row->cp,
-		'jml_dana' => $row->jml_dana,
-	    );
+                        'id_kontrak' => $row->id_kontrak,
+                        'jenis_id' => $row->jenis_id,
+                        'nm_kontrak' => $row->nm_kontrak,
+                        'nm_jenis' => $row->nm_jenis,
+                        'nm_toko' => $row->nm_toko,
+                        'tgl_masuk' => $row->tgl_masuk,
+                        'cp' => $row->cp,
+                        'jml_dana' => $row->jml_dana,
+                    );
         $data['contents'] = 'kontrak/tbl_kontrak_read';
         $this->load->view('templates/index', $data);
         } else {
@@ -70,14 +74,16 @@ class Kontrak extends CI_Controller
         $data = array(
             'button' => 'Create',
             'action' => site_url('kontrak/create_action'),
-	    'id_kontrak' => set_value('id_kontrak'),
-        'jenis_id' => set_value('jenis_id'),
-        'nm_jenis' =>  set_value('nm_jenis'),      
-	    'nm_toko' => set_value('nm_toko'),
-	    'tgl_masuk' => set_value('tgl_masuk'),
-	    'cp' => set_value('cp'),
-	    'jml_dana' => set_value('jml_dana'),
-	);
+            'id_kontrak' => set_value('id_kontrak'),
+            'jenis_id' => set_value('jenis_id'),
+            'nm_kontrak' =>  set_value('nm_kontrak'),      
+            'nm_jenis' =>  set_value('nm_jenis'),      
+            'nm_toko' => set_value('nm_toko'),
+            'tgl_masuk' => set_value('tgl_masuk'),
+            'cp' => set_value('cp'),
+            'jml_dana' => set_value('jml_dana'),
+            'jenis_data' => $this->Jenis_model->get_all(),
+        );
     $data['contents'] = 'kontrak/tbl_kontrak_form';
     $this->load->view('templates/index', $data);
     }
@@ -90,12 +96,13 @@ class Kontrak extends CI_Controller
             $this->create();
         } else {
             $data = array(
-		'jenis_id' => $this->input->post('jenis_id',TRUE),
-		'nm_toko' => $this->input->post('nm_toko',TRUE),
-		'tgl_masuk' => $this->input->post('tgl_masuk',TRUE),
-		'cp' => $this->input->post('cp',TRUE),
-		'jml_dana' => $this->input->post('jml_dana',TRUE),
-	    );
+            'jenis_id' => $this->input->post('jenis_id',TRUE),
+            'nm_kontrak' => $this->input->post('nm_kontrak',TRUE),
+            'nm_toko' => $this->input->post('nm_toko',TRUE),
+            'tgl_masuk' => $this->input->post('tgl_masuk',TRUE),
+            'cp' => $this->input->post('cp',TRUE),
+            'jml_dana' => $this->input->post('jml_dana',TRUE),
+            );
 
             $this->Kontrak_model->insert($data);
             $this->session->set_flashdata('message', 'Create Record Success');
@@ -109,15 +116,17 @@ class Kontrak extends CI_Controller
 
         if ($row) {
             $data = array(
-                'button' => 'Update',
-                'action' => site_url('kontrak/update_action'),
-                'id_kontrak' => set_value('id_kontrak', $row->id_kontrak),
-                'jenis_id' => set_value('jenis_id', $row->jenis_id),
-                'nm_jenis' =>  $row->nm_jenis,
-                'nm_toko' => set_value('nm_toko', $row->nm_toko),
-                'tgl_masuk' => set_value('tgl_masuk', $row->tgl_masuk),
-                'cp' => set_value('cp', $row->cp),
-                'jml_dana' => set_value('jml_dana', $row->jml_dana),
+                    'button' => 'Update',
+                    'action' => site_url('kontrak/update_action'),
+                    'id_kontrak' => set_value('id_kontrak', $row->id_kontrak),
+                    'jenis_id' => set_value('jenis_id', $row->jenis_id),
+                    'nm_kontrak' =>  $row->nm_kontrak,
+                    'nm_jenis' =>  $row->nm_jenis,
+                    'nm_toko' => set_value('nm_toko', $row->nm_toko),
+                    'tgl_masuk' => set_value('tgl_masuk', $row->tgl_masuk),
+                    'cp' => set_value('cp', $row->cp),
+                    'jml_dana' => set_value('jml_dana', $row->jml_dana),
+                    'jenis_data' => $this->Jenis_model->get_all(),
                 );
         $data['contents'] = 'kontrak/tbl_kontrak_form';
         $this->load->view('templates/index', $data);
@@ -135,12 +144,13 @@ class Kontrak extends CI_Controller
             $this->update($this->input->post('id_kontrak', TRUE));
         } else {
             $data = array(
-		'jenis_id' => $this->input->post('jenis_id',TRUE),
-		'nm_toko' => $this->input->post('nm_toko',TRUE),
-		'tgl_masuk' => $this->input->post('tgl_masuk',TRUE),
-		'cp' => $this->input->post('cp',TRUE),
-		'jml_dana' => $this->input->post('jml_dana',TRUE),
-	    );
+                        'jenis_id' => $this->input->post('jenis_id',TRUE),
+                        'nm_kontrak' => $this->input->post('nm_kontrak',TRUE),
+                        'nm_toko' => $this->input->post('nm_toko',TRUE),
+                        'tgl_masuk' => $this->input->post('tgl_masuk',TRUE),
+                        'cp' => $this->input->post('cp',TRUE),
+                        'jml_dana' => $this->input->post('jml_dana',TRUE),
+                        );
 
             $this->Kontrak_model->update($this->input->post('id_kontrak', TRUE), $data);
             $this->session->set_flashdata('message', 'Update Record Success');
@@ -164,7 +174,7 @@ class Kontrak extends CI_Controller
 
     public function _rules() 
     {
-	$this->form_validation->set_rules('jenis_id', 'jenis id', 'trim|required');
+	$this->form_validation->set_rules('nm_kontrak', 'nm kontrak', 'trim|required');
 	$this->form_validation->set_rules('nm_toko', 'nm toko', 'trim|required');
 	$this->form_validation->set_rules('tgl_masuk', 'tgl masuk', 'trim|required');
 	$this->form_validation->set_rules('cp', 'cp', 'trim|required');
@@ -196,22 +206,25 @@ class Kontrak extends CI_Controller
 
         $kolomhead = 0;
         xlsWriteLabel($tablehead, $kolomhead++, "No");
-	xlsWriteLabel($tablehead, $kolomhead++, "Jenis Id");
-	xlsWriteLabel($tablehead, $kolomhead++, "Nm Toko");
-	xlsWriteLabel($tablehead, $kolomhead++, "Tgl Masuk");
-	xlsWriteLabel($tablehead, $kolomhead++, "Cp");
-	xlsWriteLabel($tablehead, $kolomhead++, "Jml Dana");
+        xlsWriteLabel($tablehead, $kolomhead++, "Nama Kontrak");
+        xlsWriteLabel($tablehead, $kolomhead++, "Jenis Kontrak");
+        xlsWriteLabel($tablehead, $kolomhead++, "Nam Toko");
+        xlsWriteLabel($tablehead, $kolomhead++, "Tgl Masuk");
+        xlsWriteLabel($tablehead, $kolomhead++, "Contact");
+        xlsWriteLabel($tablehead, $kolomhead++, "Jumlah Dana");
 
-	foreach ($this->Kontrak_model->get_all() as $data) {
+
+	foreach ($this->Kontrak_model->getData() as $data) {
             $kolombody = 0;
 
             //ubah xlsWriteLabel menjadi xlsWriteNumber untuk kolom numeric
             xlsWriteNumber($tablebody, $kolombody++, $nourut);
-	    xlsWriteNumber($tablebody, $kolombody++, $data->jenis_id);
-	    xlsWriteLabel($tablebody, $kolombody++, $data->nm_toko);
-	    xlsWriteLabel($tablebody, $kolombody++, $data->tgl_masuk);
-	    xlsWriteLabel($tablebody, $kolombody++, $data->cp);
-	    xlsWriteNumber($tablebody, $kolombody++, $data->jml_dana);
+            xlsWriteLabel($tablebody, $kolombody++, $data->nm_kontrak);
+            xlsWriteLabel($tablebody, $kolombody++, $data->nm_jenis);
+            xlsWriteLabel($tablebody, $kolombody++, $data->nm_toko);
+            xlsWriteLabel($tablebody, $kolombody++, $data->tgl_masuk);
+            xlsWriteLabel($tablebody, $kolombody++, $data->cp);
+            xlsWriteNumber($tablebody, $kolombody++, $data->jml_dana);
 
 	    $tablebody++;
             $nourut++;
@@ -227,7 +240,7 @@ class Kontrak extends CI_Controller
         header("Content-Disposition: attachment;Filename=tbl_kontrak.doc");
 
         $data = array(
-            'kontrak_data' => $this->Kontrak_model->get_all(),
+            'kontrak_data' => $this->Kontrak_model->getData(),
             'start' => 0
         );
         

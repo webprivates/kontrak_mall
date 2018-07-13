@@ -1,5 +1,5 @@
 
-        <h2 style="margin-top:0px">Tbl_jenis List</h2>
+        <h2 style="margin-top:0px">Jenis List</h2>
         <div class="row" style="margin-bottom: 10px">
             <div class="col-md-4">
                 <?php echo anchor(site_url('jenis/create'),'Create', 'class="btn btn-primary"'); ?>
@@ -44,8 +44,8 @@
 			<td><?php echo $jenis->nm_jenis ?></td>
 			<td style="text-align:center" width="200px">
 				<?php 
-				echo anchor(site_url('jenis/read/'.$jenis->id_jenis),'Read'); 
-				echo ' | '; 
+				// echo anchor(site_url('jenis/read/'.$jenis->id_jenis),'Read'); 
+				// echo ' | '; 
 				echo anchor(site_url('jenis/update/'.$jenis->id_jenis),'Update'); 
 				echo ' | '; 
 				echo anchor(site_url('jenis/delete/'.$jenis->id_jenis),'Delete','onclick="javasciprt: return confirm(\'Are You Sure ?\')"'); 
@@ -59,8 +59,8 @@
         <div class="row">
             <div class="col-md-6">
                 <a href="#" class="btn btn-primary">Total Record : <?php echo $total_rows ?></a>
-		<?php echo anchor(site_url('jenis/excel'), 'Excel', 'class="btn btn-primary"'); ?>
-		<?php echo anchor(site_url('jenis/word'), 'Word', 'class="btn btn-primary"'); ?>
+		<!-- <?php echo anchor(site_url('jenis/excel'), 'Excel', 'class="btn btn-primary"'); ?>
+		<?php echo anchor(site_url('jenis/word'), 'Word', 'class="btn btn-primary"'); ?> -->
 	    </div>
             <div class="col-md-6 text-right">
                 <?php echo $pagination ?>

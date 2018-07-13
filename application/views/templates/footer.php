@@ -10,7 +10,6 @@
     </div>
 
     <!-- jQuery -->
-    <script src="<?php echo base_url() ?>template/vendors/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap -->
     <script src="<?php echo base_url() ?>template/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
     <!-- FastClick -->

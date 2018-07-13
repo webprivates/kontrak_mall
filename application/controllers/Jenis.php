@@ -8,6 +8,7 @@ class Jenis extends CI_Controller
     function __construct()
     {
         parent::__construct();
+        if($this->session->userdata('is_login') == FALSE ){redirect('auth');}		
         $this->load->model('Jenis_model');
         $this->load->library('form_validation');
     }

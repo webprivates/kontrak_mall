@@ -276,6 +276,7 @@ class CI_Upload {
 
 	/**
 	 * CI Singleton
+	 * 
 	 *
 	 * @var	object
 	 */
