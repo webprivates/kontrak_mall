@@ -22,7 +22,7 @@
           <li><a href="<?php echo site_url() ?>users">Administrator</a></li>
         </ul>
       </li>
-      <li><a><i class="fa fa-sitemap"></i> Tentang </a></li>
+      <li><a href="<?php echo site_url() ?>welcome/tentang" ><i class="fa fa-sitemap"></i> Tentang </a></li>
     </ul>
   </div>
 

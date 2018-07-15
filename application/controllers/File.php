@@ -90,7 +90,7 @@ class File extends CI_Controller
         } else {
 
             $config['upload_path'] = './uploads/';
-            $config['allowed_types'] = 'png|pdf|doc|xlsx|xls|docx';
+            $config['allowed_types'] = 'doc|docx';
             $config['max_size'] = '0';
             // $config['encrypt_name'] = TRUE; 
             $this->load->library('upload', $config);
