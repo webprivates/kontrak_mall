@@ -1,0 +1,10 @@
+simpan folder kontral_mall-master ke xampp->htdoc
+jalankan xampp
+buka browser dan akses localhost/phpmyadmin
+buat dtabase baru dengan nama works_kontral
+kemudian klik menu import dan load file db.sql yang ada di folder  kontral_mall
+
+kemudian akses localhost/kontrak_mall
+
+username : admin
+password : admin
