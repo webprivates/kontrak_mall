@@ -44,8 +44,10 @@ class Kontrak_model extends CI_Model
         $this->db->or_like('jenis_id', $q);
         $this->db->or_like('nm_toko', $q);
         $this->db->or_like('tgl_masuk', $q);
+        $this->db->or_like('tgl_berakhir', $q);
         $this->db->or_like('cp', $q);
         $this->db->or_like('jml_dana', $q);
+        $this->db->or_like('dp', $q);
         $this->db->from($this->table);
         return $this->db->count_all_results();
     }
@@ -59,8 +61,10 @@ class Kontrak_model extends CI_Model
         $this->db->or_like('jenis_id', $q);
         $this->db->or_like('nm_toko', $q);
         $this->db->or_like('tgl_masuk', $q);
+        $this->db->or_like('tgl_berakhir', $q);
         $this->db->or_like('cp', $q);
         $this->db->or_like('jml_dana', $q);
+        $this->db->or_like('dp', $q);
         $this->db->limit($limit, $start);
         return $this->db->get($this->table)->result();
     }

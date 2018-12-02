@@ -17,6 +17,8 @@
     <ul class="nav side-menu">
       <li><a><i class="fa fa-bug"></i> Master <span class="fa fa-chevron-down"></span></a>
         <ul class="nav child_menu">
+          <li><a href="<?php echo site_url() ?>denda">Denda</a></li>
+          <li><a href="<?php echo site_url() ?>kios">Ketersediaan Kios</a></li>
           <li><a href="<?php echo site_url() ?>file">Kelengkapan Berkas</a></li>
           <li><a href="<?php echo site_url() ?>jenis">Jenis Kontrak</a></li>
           <li><a href="<?php echo site_url() ?>users">Administrator</a></li>

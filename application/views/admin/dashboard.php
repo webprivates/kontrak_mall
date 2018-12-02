@@ -20,6 +20,11 @@
               <div class="count"><?php echo count($total_file) ?></div>
               <span class="count_bottom"><i class="red"><i class="fa fa-sort-desc"></i>12% </i> From last Week</span>
             </div>
+             <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+              <span class="count_top"><i class="fa fa-user"></i> Kios Kosong</span>
+              <div class="count"><?php echo  $terpakai->tersedia - count($total_kontrak) ?></div>
+              <span class="count_bottom"><i class="red"><i class="fa fa-sort-desc"></i>12% </i> From last Week</span>
+            </div>
           </div>
           <!-- /top tiles -->
 

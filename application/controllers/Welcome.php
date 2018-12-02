@@ -6,7 +6,7 @@ class Welcome extends CI_Controller {
 	function __construct(){
 		parent::__construct();
         if($this->session->userdata('is_login') == false ){redirect('auth');}				
-        $this->load->model(array('Auth_model', 'Kontrak_model', 'File_model', 'Jenis_model', 'Users_model'));
+        $this->load->model(array('Auth_model', 'Kontrak_model', 'File_model', 'Jenis_model', 'Users_model', 'Kios_model'));
     }
 
 	public function index()
@@ -15,6 +15,7 @@ class Welcome extends CI_Controller {
 		$data['total_users'] = $this->Users_model->get_all();
 		$data['total_file'] = $this->File_model->get_all();
 		$data['total_jenis'] = $this->Jenis_model->get_all();
+		$data['terpakai'] = $this->db->query("SELECT * FROM tbl_setting")->row();
 		$data['contents'] = 'admin/dashboard' ;
 		$this->load->view('templates/index', $data);
 	}

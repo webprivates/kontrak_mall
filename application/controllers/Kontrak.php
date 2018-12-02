@@ -10,12 +10,25 @@ class Kontrak extends CI_Controller
         parent::__construct();
         if($this->session->userdata('is_login') == FALSE ){redirect('auth');}		
         $this->load->model('Kontrak_model');
+        $this->load->model('Denda_model');
         $this->load->model('Jenis_model');
         $this->load->library('form_validation');
     }
 
+    public function expired($id){
+        $data['denda'] = $this->Denda_model->get_by_id(1);
+        $data['data'] = $this->Kontrak_model->get_by_id($id);
+        $data['contents'] ='kontrak/expired';
+        $this->load->view('templates/index', $data);
+
+
+    }
+
+
     public function index()
     {
+       
+
         $q = urldecode($this->input->get('q', TRUE));
         $start = intval($this->input->get('start'));
         
@@ -35,8 +48,11 @@ class Kontrak extends CI_Controller
         $this->load->library('pagination');
         $this->pagination->initialize($config);
 
+
+
         $data = array(
             'kontrak_data' => $kontrak,
+            'tempo' => $this->db->query("SELECT * FROM tbl_denda")->row()->jatuh_tempo,
             'q' => $q,
             'pagination' => $this->pagination->create_links(),
             'total_rows' => $config['total_rows'],
@@ -58,8 +74,10 @@ class Kontrak extends CI_Controller
                         'nm_jenis' => $row->nm_jenis,
                         'nm_toko' => $row->nm_toko,
                         'tgl_masuk' => $row->tgl_masuk,
+                        'tgl_berakhir' => $row->tgl_berakhir,
                         'cp' => $row->cp,
                         'jml_dana' => $row->jml_dana,
+                        'dp' => $row->dp,
                     );
         $data['contents'] = 'kontrak/tbl_kontrak_read';
         $this->load->view('templates/index', $data);
@@ -80,8 +98,10 @@ class Kontrak extends CI_Controller
             'nm_jenis' =>  set_value('nm_jenis'),      
             'nm_toko' => set_value('nm_toko'),
             'tgl_masuk' => set_value('tgl_masuk'),
+            'tgl_berakhir' => set_value('tgl_berakhir'),
             'cp' => set_value('cp'),
             'jml_dana' => set_value('jml_dana'),
+            'dp' => set_value('dp'),
             'jenis_data' => $this->Jenis_model->get_all(),
         );
     $data['contents'] = 'kontrak/tbl_kontrak_form';
@@ -100,8 +120,10 @@ class Kontrak extends CI_Controller
             'nm_kontrak' => $this->input->post('nm_kontrak',TRUE),
             'nm_toko' => $this->input->post('nm_toko',TRUE),
             'tgl_masuk' => $this->input->post('tgl_masuk',TRUE),
+            'tgl_berakhir' => $this->input->post('tgl_berakhir',TRUE),
             'cp' => $this->input->post('cp',TRUE),
             'jml_dana' => $this->input->post('jml_dana',TRUE),
+            'dp' => $this->input->post('dp',TRUE),
             );
 
             $this->Kontrak_model->insert($data);
@@ -124,8 +146,10 @@ class Kontrak extends CI_Controller
                     'nm_jenis' =>  $row->nm_jenis,
                     'nm_toko' => set_value('nm_toko', $row->nm_toko),
                     'tgl_masuk' => set_value('tgl_masuk', $row->tgl_masuk),
+                    'tgl_berakhir' => set_value('tgl_berakhir', $row->tgl_berakhir),
                     'cp' => set_value('cp', $row->cp),
                     'jml_dana' => set_value('jml_dana', $row->jml_dana),
+                    'dp' => set_value('dp', $row->dp),
                     'jenis_data' => $this->Jenis_model->get_all(),
                 );
         $data['contents'] = 'kontrak/tbl_kontrak_form';
@@ -148,8 +172,10 @@ class Kontrak extends CI_Controller
                         'nm_kontrak' => $this->input->post('nm_kontrak',TRUE),
                         'nm_toko' => $this->input->post('nm_toko',TRUE),
                         'tgl_masuk' => $this->input->post('tgl_masuk',TRUE),
+                        'tgl_berakhir' => $this->input->post('tgl_berakhir',TRUE),
                         'cp' => $this->input->post('cp',TRUE),
                         'jml_dana' => $this->input->post('jml_dana',TRUE),
+                        'dp' => $this->input->post('dp',TRUE),
                         );
 
             $this->Kontrak_model->update($this->input->post('id_kontrak', TRUE), $data);
@@ -176,9 +202,11 @@ class Kontrak extends CI_Controller
     {
 	$this->form_validation->set_rules('nm_kontrak', 'nm kontrak', 'trim|required');
 	$this->form_validation->set_rules('nm_toko', 'nm toko', 'trim|required');
-	$this->form_validation->set_rules('tgl_masuk', 'tgl masuk', 'trim|required');
+    $this->form_validation->set_rules('tgl_masuk', 'tgl masuk', 'trim|required');
+	$this->form_validation->set_rules('tgl_berakhir', 'tgl berakhir', 'trim|required');
 	$this->form_validation->set_rules('cp', 'cp', 'trim|required');
-	$this->form_validation->set_rules('jml_dana', 'jml dana', 'trim|required|numeric');
+    $this->form_validation->set_rules('jml_dana', 'jml dana', 'trim|required|numeric');
+	$this->form_validation->set_rules('dp', 'dp', 'trim|required|numeric');
 
 	$this->form_validation->set_rules('id_kontrak', 'id_kontrak', 'trim');
 	$this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');
@@ -210,8 +238,10 @@ class Kontrak extends CI_Controller
         xlsWriteLabel($tablehead, $kolomhead++, "Jenis Kontrak");
         xlsWriteLabel($tablehead, $kolomhead++, "Nam Toko");
         xlsWriteLabel($tablehead, $kolomhead++, "Tgl Masuk");
+        xlsWriteLabel($tablehead, $kolomhead++, "Tgl Berakhir");
         xlsWriteLabel($tablehead, $kolomhead++, "Contact");
         xlsWriteLabel($tablehead, $kolomhead++, "Jumlah Dana");
+        xlsWriteLabel($tablehead, $kolomhead++, "Jumlah DP");
 
 
 	foreach ($this->Kontrak_model->getData() as $data) {
@@ -223,8 +253,10 @@ class Kontrak extends CI_Controller
             xlsWriteLabel($tablebody, $kolombody++, $data->nm_jenis);
             xlsWriteLabel($tablebody, $kolombody++, $data->nm_toko);
             xlsWriteLabel($tablebody, $kolombody++, $data->tgl_masuk);
+            xlsWriteLabel($tablebody, $kolombody++, $data->tgl_berakhir);
             xlsWriteLabel($tablebody, $kolombody++, $data->cp);
             xlsWriteNumber($tablebody, $kolombody++, $data->jml_dana);
+            xlsWriteNumber($tablebody, $kolombody++, $data->dp);
 
 	    $tablebody++;
             $nourut++;

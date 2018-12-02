@@ -37,20 +37,35 @@
                 <th>Jenis Kontrak</th>
                 <th>Nama Toko</th>
                 <th>Tgl Masuk</th>
-                <th>Contact</th>
+                <th>Tgl Berakhir</th>
                 <th>Jumlah Dana</th>
+                <th>DP</th>
+                <th>Contact</th>
                 <th>Action</th>
             </tr>
             <?php
-            foreach ($kontrak_data as $kontrak){ ?>
+            foreach ($kontrak_data as $kontrak){
+                   $tanggal1 = new DateTime(".$kontrak->tgl_berakhir.");
+                     $tanggal2 = new DateTime();
+                     $perbedaan = $tanggal2->diff($tanggal1)->format("%a");
+             ?>
                 <tr>
-                    <td width="80px"><?php echo ++$start ?></td>
-                    <td><?php echo $kontrak->nm_kontrak ?></td>
+                    <td width="10px"><?php echo ++$start ?></td>
+                    <td><?php 
+                            if ($perbedaan <= $tempo) {
+                               echo "<a href='".base_url('kontrak/expired/').$kontrak->id_kontrak."' <span class='label label-danger'><i class='fa fa-warning' > " .$kontrak->nm_kontrak."</span></a>";
+                            }else{
+                                echo $kontrak->nm_kontrak;
+                            }
+
+                     ?></td>
                     <td><?php echo $kontrak->nm_jenis ?></td>
                     <td><?php echo $kontrak->nm_toko ?></td>
                     <td><?php echo $kontrak->tgl_masuk ?></td>
-                    <td><?php echo $kontrak->cp ?></td>
+                    <td><?php echo $kontrak->tgl_berakhir ?></td>
                     <td><?php echo $kontrak->jml_dana ?></td>
+                    <td><?php echo $kontrak->dp ?></td>
+                    <td><?php echo $kontrak->cp ?></td>
                     <td style="text-align:center" width="200px">
                         <?php 
                         echo anchor(site_url('kontrak/read/'.$kontrak->id_kontrak),'Read'); 

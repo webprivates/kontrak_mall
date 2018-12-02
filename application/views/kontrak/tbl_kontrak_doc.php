@@ -24,8 +24,10 @@
                 <th>Jenis Kontrak</th>
                 <th>Nm Toko</th>
                 <th>Tgl Masuk</th>
+                <th>Tgl Berakhir</th>
                 <th>Contact</th>
                 <th>Jml Dana</th>
+                <th>DP</th>
 		
             </tr>
             <?php
@@ -37,9 +39,11 @@
 		      <td><?php echo $kontrak->nm_kontrak ?></td>
 		      <td><?php echo $kontrak->nm_jenis ?></td>
 		      <td><?php echo $kontrak->nm_toko ?></td>
-		      <td><?php echo $kontrak->tgl_masuk ?></td>
+              <td><?php echo $kontrak->tgl_masuk ?></td>
+		      <td><?php echo $kontrak->tgl_berakhir ?></td>
 		      <td><?php echo $kontrak->cp ?></td>
-		      <td><?php echo $kontrak->jml_dana ?></td>	
+              <td><?php echo $kontrak->jml_dana ?></td> 
+		      <td><?php echo $kontrak->dp ?></td>	
                 </tr>
                 <?php
             }
